@@ -1,5 +1,10 @@
+
 pipeline {
     agent any
+
+    environment {
+        REGISTRY = '194.199.106.9:5000'
+    }
 
     stages {
         stage('Checkout') {
@@ -11,7 +16,7 @@ pipeline {
         stage('Build calc-service') {
             steps {
                 dir('calc-service') {
-                    sh 'docker build -t calculator-calc:latest .'
+                    sh 'docker build -t $REGISTRY/calculator-calc:latest .'
                 }
             }
         }
@@ -19,7 +24,7 @@ pipeline {
         stage('Build sum-service') {
             steps {
                 dir('sum-service') {
-                    sh 'docker build -t calculator-sum:latest .'
+                    sh 'docker build -t $REGISTRY/calculator-sum:latest .'
                 }
             }
         }
@@ -27,7 +32,7 @@ pipeline {
         stage('Build sub-service') {
             steps {
                 dir('sub-service') {
-                    sh 'docker build -t calculator-sub:latest .'
+                    sh 'docker build -t $REGISTRY/calculator-sub:latest .'
                 }
             }
         }
@@ -35,7 +40,7 @@ pipeline {
         stage('Build mul-service') {
             steps {
                 dir('mul-service') {
-                    sh 'docker build -t calculator-mul:latest .'
+                    sh 'docker build -t $REGISTRY/calculator-mul:latest .'
                 }
             }
         }
@@ -43,18 +48,28 @@ pipeline {
         stage('Build div-service') {
             steps {
                 dir('div-service') {
-                    sh 'docker build -t calculator-div:latest .'
+                    sh 'docker build -t $REGISTRY/calculator-div:latest .'
                 }
+            }
+        }
+
+        stage('Push images') {
+            steps {
+                sh 'docker push $REGISTRY/calculator-calc:latest'
+                sh 'docker push $REGISTRY/calculator-sum:latest'
+                sh 'docker push $REGISTRY/calculator-sub:latest'
+                sh 'docker push $REGISTRY/calculator-mul:latest'
+                sh 'docker push $REGISTRY/calculator-div:latest'
             }
         }
     }
 
     post {
         success {
-            echo 'CI : toutes les images ont été construites avec succès !'
+            echo 'Toutes les images ont été construites et publiées avec succès !'
         }
         failure {
-            echo 'CI : échec du pipeline.'
+            echo 'Échec du pipeline.'
         }
     }
 }
