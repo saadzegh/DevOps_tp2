@@ -62,6 +62,11 @@ pipeline {
                 sh 'docker push $REGISTRY/calculator-div:latest'
             }
         }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f kubernetes/'
+            }
+        }
     }
 
     post {
