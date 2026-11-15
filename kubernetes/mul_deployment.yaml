@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-mul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculator-mul
+  template:
+    metadata:
+      labels:
+        app: calculator-mul
+    spec:
+      containers:
+        - name: calculator-mul-container
+          image: 194.199.106.9:5000/calculator-mul:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 50003
+              protocol: TCP

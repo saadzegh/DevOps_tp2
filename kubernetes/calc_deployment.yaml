@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-calc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculator-calc
+  template:
+    metadata:
+      labels:
+        app: calculator-calc
+    spec:
+      containers:
+        - name: calculator-calc-container
+          image: 194.199.106.9:5000/calculator-calc:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP

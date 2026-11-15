@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-sum
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculator-sum
+  template:
+    metadata:
+      labels:
+        app: calculator-sum
+    spec:
+      containers:
+        - name: calculator-sum-container
+          image: 194.199.106.9:5000/calculator-sum:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 50001
+              protocol: TCP
