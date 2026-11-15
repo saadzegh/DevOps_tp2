@@ -64,7 +64,22 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f kubernetes/'
+                sh '''
+                    kubectl apply -f kubernetes/calc_deployment.yaml
+                    kubectl apply -f kubernetes/calc_service.yaml
+        
+                    kubectl apply -f kubernetes/sum_deployment.yaml
+                    kubectl apply -f kubernetes/sum_service.yaml
+        
+                    kubectl apply -f kubernetes/sub_deployment.yaml
+                    kubectl apply -f kubernetes/sub_service.yaml
+        
+                    kubectl apply -f kubernetes/mul_deployment.yaml
+                    kubectl apply -f kubernetes/mul_service.yaml
+        
+                    kubectl apply -f kubernetes/div_deployment.yaml
+                    kubectl apply -f kubernetes/div_service.yaml
+                '''
             }
         }
     }
